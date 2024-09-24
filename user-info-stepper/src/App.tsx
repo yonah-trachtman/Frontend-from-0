@@ -7,7 +7,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => setModalVisible(true)}>Open User Info Stepper</button>
+      <button onClick={() => setModalVisible(true)}>Open Form</button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
         <Stepper />
       </Modal>
