@@ -11,6 +11,8 @@ const Stepper: React.FC = () => {
     lastName: '',
     age: '',
   });
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDataChange = (data: any) => {
     setUserData((prev) => ({ ...prev, ...data }));
@@ -23,7 +25,13 @@ const Stepper: React.FC = () => {
     if (currentStep === 1) {
       return userData.age !== '';
     }
-    return true; // Allow to proceed on Step 3 (Review)
+    return true;
+  };
+
+  const handleFinish = () => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    setIsCompleted(true);
+    setIsModalOpen(false);
   };
 
   const steps = [
@@ -32,21 +40,44 @@ const Stepper: React.FC = () => {
     <StepThree userData={userData} />,
   ];
 
+  const SuccessPage: React.FC = () => (
+    <div>
+      <h2>Form Submitted Successfully!</h2>
+      <p>Thank you, {userData.firstName} {userData.lastName}!</p>
+      <p>We have received your details and saved them to localStorage.</p>
+    </div>
+  );
+
   return (
     <div>
-      {steps[currentStep]}
-      <div>
-        <button onClick={prevStep} disabled={currentStep === 0}>
-          Back
-        </button>
-        {isLastStep ? (
-          <button onClick={() => console.log(userData)}>Finish</button>
-        ) : (
-          <button onClick={nextStep} disabled={!canProceed()}>
-            Next
-          </button>
-        )}
-      </div>
+      {!isModalOpen && (
+        <button onClick={() => setIsModalOpen(true)}>Open User Info Stepper</button>
+      )}
+
+      {isModalOpen && (
+        <div className="modal">
+          {isCompleted ? (
+            <SuccessPage />
+          ) : (
+            <div>
+              {steps[currentStep]}
+              <div>
+                <button onClick={prevStep} disabled={currentStep === 0}>
+                  Back
+                </button>
+                {isLastStep ? (
+                  <button onClick={handleFinish}>Finish</button>
+                ) : (
+                  <button onClick={nextStep} disabled={!canProceed()}>
+                    Next
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          <button onClick={() => setIsModalOpen(false)}>Close</button>
+        </div>
+      )}
     </div>
   );
 };

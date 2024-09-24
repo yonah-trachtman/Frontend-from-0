@@ -1,40 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface StepOneProps {
-  userData: any;
-  onChange: (data: any) => void;
   onNext: () => void;
+  userData: { firstName: string; lastName: string };
+  onChange: (data: any) => void;
 }
 
-const StepOne: React.FC<StepOneProps> = ({ userData, onChange, onNext }) => {
-  const [firstName, setFirstName] = useState(userData.firstName || '');
-  const [lastName, setLastName] = useState(userData.lastName || '');
-
-  const handleNext = () => {
-    if (firstName && lastName) {
-      onChange({ firstName, lastName });
-      onNext();
-    }
+const StepOne: React.FC<StepOneProps> = ({ onNext, userData, onChange }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange({ [e.target.name]: e.target.value });
   };
 
   return (
     <div>
-      <h2>Step 1: Enter Name</h2>
+      <h2>Step 1: Enter Your Name</h2>
       <input
         type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+        name="firstName"
         placeholder="First Name"
+        value={userData.firstName}
+        onChange={handleInputChange}
       />
       <input
         type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
+        name="lastName"
         placeholder="Last Name"
+        value={userData.lastName}
+        onChange={handleInputChange}
       />
-      <button onClick={handleNext} disabled={!firstName || !lastName}>
-        Next
-      </button>
     </div>
   );
 };

@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface StepTwoProps {
-  userData: any;
-  onChange: (data: any) => void;
   onNext: () => void;
+  userData: { age: string };
+  onChange: (data: any) => void;
 }
 
-const StepTwo: React.FC<StepTwoProps> = ({ userData, onChange, onNext }) => {
-  const [age, setAge] = useState(userData.age || '');
-
-  const handleNext = () => {
-    if (age) {
-      onChange({ age });
-      onNext();
-    }
+const StepTwo: React.FC<StepTwoProps> = ({ onNext, userData, onChange }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange({ age: e.target.value });
   };
 
   return (
     <div>
-      <h2>Step 2: Enter Age</h2>
+      <h2>Step 2: Enter Your Age</h2>
       <input
         type="number"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
+        name="age"
         placeholder="Age"
+        value={userData.age}
+        onChange={handleInputChange}
       />
-      <button onClick={handleNext} disabled={!age}>
-        Next
-      </button>
     </div>
   );
 };
