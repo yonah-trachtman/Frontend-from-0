@@ -1,22 +1,16 @@
 import React from 'react';
 
 interface StepThreeProps {
-  userData: { firstName: string; lastName: string; age: string };
+  userData: any;
 }
 
 const StepThree: React.FC<StepThreeProps> = ({ userData }) => {
   return (
     <div>
-      <h2>Step 3: Review Your Data</h2>
-      <p>
-        <strong>First Name:</strong> {userData.firstName}
-      </p>
-      <p>
-        <strong>Last Name:</strong> {userData.lastName}
-      </p>
-      <p>
-        <strong>Age:</strong> {userData.age}
-      </p>
+      <h2>Step 3: Review Information</h2>
+      <p>First Name: {userData.firstName}</p>
+      <p>Last Name: {userData.lastName}</p>
+      <p>Age: {userData.age}</p>
     </div>
   );
 };
